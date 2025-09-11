@@ -1,0 +1,167 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Coffee/Cream Theme Custom Styles */
+:root {
+    --cream-50: #fefdf8;
+    --cream-100: #fdf8e8;
+    --cream-200: #f9edc4;
+    --cream-300: #f4dfa0;
+    --cream-400: #eecb7c;
+    --coffee-50: #f7f3f0;
+    --coffee-100: #ede4dc;
+    --coffee-200: #d4baa8;
+    --coffee-300: #bb9074;
+    --coffee-400: #a26640;
+    --coffee-500: #8b4513;
+    --coffee-600: #7a3f12;
+    --coffee-700: #693911;
+    --coffee-800: #583310;
+    --coffee-900: #472d0f;
+}
+
+/* Smooth animations */
+* {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--cream-100);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--coffee-300);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--coffee-400);
+}
+
+/* Floating animations */
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-6px); }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes pulse-soft {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.animate-float {
+    animation: float 3s ease-in-out infinite;
+}
+
+.animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.animate-slide-in-left {
+    animation: slideInLeft 0.5s ease-out;
+}
+
+.animate-pulse-soft {
+    animation: pulse-soft 2s ease-in-out infinite;
+}
+
+/* Glass morphism effect */
+.glass {
+    backdrop-filter: blur(10px);
+    background: rgba(255, 248, 232, 0.8);
+    border: 1px solid rgba(139, 69, 19, 0.1);
+}
+
+/* Hover effects */
+.hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 25px -5px rgba(139, 69, 19, 0.1), 0 10px 10px -5px rgba(139, 69, 19, 0.04);
+}
+
+/* Button styles */
+.btn-coffee {
+    background: linear-gradient(135deg, var(--coffee-500), var(--coffee-600));
+    color: white;
+    border-radius: 12px;
+    padding: 12px 24px;
+    font-weight: 600;
+    box-shadow: 0 4px 14px 0 rgba(139, 69, 19, 0.3);
+    transition: all 0.3s ease;
+}
+
+.btn-coffee:hover {
+    background: linear-gradient(135deg, var(--coffee-600), var(--coffee-700));
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px 0 rgba(139, 69, 19, 0.4);
+}
+
+.btn-cream {
+    background: linear-gradient(135deg, var(--cream-200), var(--cream-300));
+    color: var(--coffee-700);
+    border-radius: 12px;
+    padding: 12px 24px;
+    font-weight: 600;
+    box-shadow: 0 4px 14px 0 rgba(244, 223, 160, 0.3);
+    transition: all 0.3s ease;
+}
+
+.btn-cream:hover {
+    background: linear-gradient(135deg, var(--cream-300), var(--cream-400));
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px 0 rgba(244, 223, 160, 0.4);
+}
+
+/* Card styles */
+.card-coffee {
+    background: linear-gradient(145deg, #ffffff, var(--cream-50));
+    border: 1px solid var(--cream-200);
+    border-radius: 16px;
+    box-shadow: 0 4px 6px -1px rgba(139, 69, 19, 0.1), 0 2px 4px -1px rgba(139, 69, 19, 0.06);
+    transition: all 0.3s ease;
+}
+
+.card-coffee:hover {
+    box-shadow: 0 20px 25px -5px rgba(139, 69, 19, 0.1), 0 10px 10px -5px rgba(139, 69, 19, 0.04);
+    transform: translateY(-2px);
+}
+
+/* Text gradient */
+.text-gradient {
+    background: linear-gradient(135deg, var(--coffee-600), var(--coffee-400));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
