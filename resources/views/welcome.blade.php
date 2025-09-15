@@ -481,185 +481,66 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
-        /* Social media footer - ENHANCED */
-        .social-footer {
+        /* Social media footer - Modern Clean Style */
+        .social-footer-modern {
             position: fixed;
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            background: linear-gradient(135deg, rgba(245, 245, 220, 0.98), rgba(222, 184, 135, 0.5));
-            backdrop-filter: blur(25px);
-            border: 2px solid rgba(139, 69, 19, 0.2);
-            border-radius: 25px;
-            padding: 18px 25px;
             display: flex;
             align-items: center;
-            gap: 25px;
-            box-shadow: 
-                0 15px 30px rgba(139, 69, 19, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            gap: 16px;
+            padding: 16px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             z-index: 100;
-            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .social-footer::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, 
-                transparent, 
-                rgba(139, 69, 19, 0.1), 
-                transparent);
-            animation: footerShine 4s ease-in-out infinite;
-        }
-
-        @keyframes footerShine {
-            0%, 100% { left: -100%; }
-            50% { left: 100%; }
-        }
-
-        .social-footer h4 {
-            color: #8B4513;
-            font-size: 1rem;
-            font-weight: 700;
-            margin: 0;
+        .social-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             white-space: nowrap;
-            text-shadow: 0 2px 4px rgba(139, 69, 19, 0.1);
-            position: relative;
-            z-index: 2;
         }
 
-        .social-links-footer {
-            display: flex;
-            gap: 15px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .social-btn-footer {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
+        .social-btn-modern {
+            width: 40px;
+            height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
+            border-radius: 50%;
             text-decoration: none;
             color: white;
-            font-weight: 700;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            overflow: hidden;
-            border: 2px solid rgba(255, 255, 255, 0.2);
             font-size: 1rem;
-            font-family: 'Arial', sans-serif;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+            font-weight: 600;
+            transition: transform 0.2s ease;
+            border: none;
+            cursor: pointer;
         }
 
-        .social-icon {
-            position: relative;
-            z-index: 3;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-            transition: all 0.3s ease;
-        }
-
-        .social-btn-footer::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, 
-                rgba(255, 255, 255, 0.3), 
-                transparent, 
-                rgba(255, 255, 255, 0.3));
-            border-radius: 50%;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: 1;
-        }
-
-        .social-btn-footer::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            transition: all 0.6s ease;
-            transform: translate(-50%, -50%);
-            z-index: 2;
-        }
-
-        .social-btn-footer:hover::before {
-            opacity: 1;
-            animation: socialRotate 2s linear infinite;
-        }
-
-        .social-btn-footer:hover::after {
-            width: 80px;
-            height: 80px;
-        }
-
-        .social-btn-footer:hover {
-            transform: scale(1.15) translateY(-3px);
-            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
-            border-color: rgba(255, 255, 255, 0.4);
-        }
-
-        .social-btn-footer:hover .social-icon {
+        .social-btn-modern:hover {
             transform: scale(1.1);
-            filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.5));
         }
 
-        @keyframes socialRotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+        .youtube-modern {
+            background: linear-gradient(135deg, #ec4899, #a855f7);
         }
 
-        .social-btn-footer.youtube {
-            background: linear-gradient(135deg, #FF0000, #CC0000, #990000);
+        .tiktok-modern {
+            background: linear-gradient(135deg, #22d3ee, #3b82f6);
         }
 
-        .social-btn-footer.youtube:hover {
-            background: linear-gradient(135deg, #FF3333, #FF0000, #CC0000);
+        .instagram-modern {
+            background: linear-gradient(135deg, #fb923c, #ef4444);
         }
 
-        .social-btn-footer.tiktok {
-            background: linear-gradient(135deg, #000000, #25F4EE, #FE2C55);
-        }
-
-        .social-btn-footer.tiktok:hover {
-            background: linear-gradient(135deg, #333333, #25F4EE, #FF4081);
-        }
-
-        .social-btn-footer.instagram {
-            background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045, #833ab4);
-            background-size: 200% 200%;
-            animation: instagramGradient 3s ease infinite;
-        }
-
-        .social-btn-footer.instagram:hover {
-            animation-duration: 1s;
-        }
-
-        @keyframes instagramGradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .social-btn-footer.whatsapp {
-            background: linear-gradient(135deg, #25d366, #128c7e, #075e54);
-        }
-
-        .social-btn-footer.whatsapp:hover {
-            background: linear-gradient(135deg, #34e477, #25d366, #128c7e);
+        .whatsapp-modern {
+            background: linear-gradient(135deg, #4ade80, #14b8a6);
         }
 
         /* Responsive */
@@ -689,10 +570,10 @@
                 top: 20px;
             }
 
-            .social-footer {
+            .social-footer-modern {
                 bottom: 15px;
-                padding: 15px 20px;
-                gap: 20px;
+                padding: 14px;
+                gap: 14px;
             }
         }
 
@@ -713,25 +594,21 @@
                 gap: 10px;
             }
 
-            .social-footer {
+            .social-footer-modern {
                 bottom: 10px;
-                padding: 12px 18px;
-                gap: 15px;
-                border-radius: 20px;
-            }
-
-            .social-footer h4 {
-                font-size: 0.9rem;
-            }
-
-            .social-btn-footer {
-                width: 40px;
-                height: 40px;
-                font-size: 0.9rem;
-            }
-
-            .social-links-footer {
+                padding: 12px;
                 gap: 12px;
+                border-radius: 12px;
+            }
+
+            .social-title {
+                font-size: 1rem;
+            }
+
+            .social-btn-modern {
+                width: 36px;
+                height: 36px;
+                font-size: 0.9rem;
             }
         }
     </style>
@@ -826,23 +703,21 @@
         </div>
     </div>
 
-    <!-- Social Media Footer -->
-    <div class="social-footer">
-        <h4>Connect With Me ☕</h4>
-        <div class="social-links-footer">
-            <a href="https://www.youtube.com/@gelutoniexdi" class="social-btn-footer youtube" title="YouTube">
-                <span class="social-icon">▶</span>
-            </a>
-            <a href="hhttps://www.tiktok.com/@grreeeddd" class="social-btn-footer tiktok" title="TikTok">
-                <span class="social-icon">♪</span>
-            </a>
-            <a href="https://www.instagram.com/grreeedd_/" class="social-btn-footer instagram" title="Instagram">
-                <span class="social-icon">📷</span>
-            </a>
-            <a href="https://wa.me/6283875095310" class="social-btn-footer whatsapp" title="WhatsApp">
-                <span class="social-icon">💬</span>
-            </a>
-        </div>
+    <!-- Social Media Footer - Modern Style -->
+    <div class="social-footer-modern">
+        <span class="social-title">Connect With Me ☕</span>
+        <a href="https://www.youtube.com/@gelutoniexdi" class="social-btn-modern youtube-modern" title="YouTube">
+            ▶
+        </a>
+        <a href="https://www.tiktok.com/@grreeeddd" class="social-btn-modern tiktok-modern" title="TikTok">
+            🎵
+        </a>
+        <a href="https://www.instagram.com/grreeedd_/" class="social-btn-modern instagram-modern" title="Instagram">
+            📸
+        </a>
+        <a href="https://wa.me/6283875095310" class="social-btn-modern whatsapp-modern" title="WhatsApp">
+            💬
+        </a>
     </div>
 
     <script>
