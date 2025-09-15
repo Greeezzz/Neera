@@ -78,6 +78,10 @@
                                                 <span>✅</span>
                                                 <span>Friends</span>
                                             </span>
+                                            <a href="{{ route('chat.show', $user) }}" class="btn-coffee px-3 py-2 text-sm hover:scale-105 flex items-center space-x-1">
+                                                <span>💬</span>
+                                                <span>Chat</span>
+                                            </a>
                                             <form action="{{ route('friend.remove', $user->id) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
