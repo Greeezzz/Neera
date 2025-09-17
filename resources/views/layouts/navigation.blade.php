@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="glass border-b border-coffee-200/20 sticky top-0 z-50 backdrop-blur-md">
+<nav class="glass border-b border-coffee-200/20 sticky top-0 z-50 backdrop-blur-md">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -32,8 +32,17 @@
                 </div>
             </div>
 
-            <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
+            <!-- Theme Toggle + Settings Dropdown -->
+            <div class="hidden sm:flex sm:items-center sm:ms-6 gap-3">
+                <!-- Theme toggle (desktop) -->
+                <button type="button"
+                        onclick="window.toggleTheme()"
+                        id="theme-toggle-desktop"
+                        aria-label="Toggle theme"
+                        class="inline-flex items-center justify-center px-3 py-2 rounded-lg bg-cream-200/60 text-coffee-700 hover:bg-cream-200 transition-all duration-300 hover:scale-105 shadow-sm border border-coffee-200/30">
+                    <span id="theme-icon-light">🌙</span>
+                    <span id="theme-icon-dark" style="display: none;">🌞</span>
+                </button>
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-4 py-2 btn-cream text-coffee-700 hover:text-coffee-800 focus:outline-none transition-all duration-300 hover:scale-105">
@@ -138,6 +147,15 @@
                                    class="text-coffee-700 hover:bg-cream-100">
                 💬 Chat
             </x-responsive-nav-link>
+            <!-- Theme toggle (mobile) -->
+            <div class="px-4">
+                <button type="button" onclick="toggleTheme(); closeMobileMenu()"
+                        id="theme-toggle-mobile"
+                        class="w-full flex items-center justify-between px-3 py-2 rounded-lg bg-cream-100 text-coffee-700 hover:bg-cream-200 transition border border-coffee-200/30">
+                    <span>🌓 Theme</span>
+                    <span id="theme-text-mobile">Dark</span>
+                </button>
+            </div>
         </div>
 
         <!-- Responsive Settings Options -->

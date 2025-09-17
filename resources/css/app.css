@@ -4,6 +4,7 @@
 
 /* Coffee/Cream Theme Custom Styles */
 :root {
+    /* Kopi Susu Terang Theme */
     --cream-50: #fefdf8;
     --cream-100: #fdf8e8;
     --cream-200: #f9edc4;
@@ -19,11 +20,193 @@
     --coffee-700: #693911;
     --coffee-800: #583310;
     --coffee-900: #472d0f;
+    --latte-50: #f8f4f0;
+    --latte-100: #f1e7d8;
+    --latte-200: #e3cfb0;
+    --latte-300: #d5b788;
+    --latte-400: #c79f60;
+    --latte-500: #b98738;
+    --latte-600: #9a6f2e;
+}
+
+/* Kopi Susu Gelap Theme (Dominant Dark Coffee) */
+[data-theme="dark"] {
+    --cream-50: #2d1f14;
+    --cream-100: #3a2818;
+    --cream-200: #4a321e;
+    --cream-300: #5a3d26;
+    --cream-400: #6b482f;
+    --coffee-50: #1a1107;
+    --coffee-100: #2c1d0f;
+    --coffee-200: #3e2916;
+    --coffee-300: #50351e;
+    --coffee-400: #624026;
+    --coffee-500: #8b4513; /* Brand color tetap */
+    --coffee-600: #a85c2e;
+    --coffee-700: #c97443;
+    --coffee-800: #e28a55;
+    --coffee-900: #f19b64;
+    --latte-50: #2a1e16;
+    --latte-100: #3d2e22;
+    --latte-200: #50402f;
+    --latte-300: #63523d;
+    --latte-400: #76644c;
+    --latte-500: #8b765b;
+    --latte-600: #a0886a;
 }
 
 /* Smooth animations */
 * {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Enhanced animations */
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes bounce-soft {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+@keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(139, 69, 19, 0.4); }
+    50% { box-shadow: 0 0 20px 10px rgba(139, 69, 19, 0.1); }
+}
+
+/* Post card enhancements */
+.post-card {
+    backdrop-filter: blur(10px);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+}
+
+.post-card:hover {
+    animation: pulse-glow 2s infinite;
+}
+
+/* Hover lift effect */
+.hover-lift:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Button animations */
+.btn-animate:hover {
+    animation: bounce-soft 0.6s ease-in-out;
+}
+
+/* Coffee Theme Button Styles */
+.btn-coffee-primary {
+    @apply px-6 py-2 bg-gradient-to-r from-coffee-500 to-coffee-600 text-cream-50 rounded-lg hover:from-coffee-600 hover:to-coffee-700 transition-all duration-300 hover:scale-105 shadow-md hover:shadow-lg font-medium;
+}
+
+.btn-coffee-like {
+    @apply bg-latte-50 hover:bg-latte-200 text-latte-700 hover:text-coffee-900 shadow-sm hover:shadow-md;
+}
+
+.btn-coffee-dislike {
+    @apply bg-coffee-100 hover:bg-coffee-200 text-coffee-700 hover:text-coffee-900 shadow-sm hover:shadow-md;
+}
+
+.btn-coffee-comment {
+    @apply bg-coffee-50 hover:bg-coffee-100 text-coffee-600 hover:text-coffee-800 shadow-sm hover:shadow-md;
+}
+
+.btn-coffee-edit {
+    @apply bg-latte-50 hover:bg-latte-100 text-coffee-600 hover:text-coffee-800 shadow-sm hover:shadow-md;
+}
+
+.btn-coffee-delete {
+    @apply bg-coffee-100 hover:bg-coffee-200 text-coffee-700 hover:text-coffee-900 shadow-sm hover:shadow-md;
+}
+
+.btn-coffee-share {
+    @apply bg-latte-100 hover:bg-latte-200 text-latte-700 hover:text-coffee-800 shadow-sm hover:shadow-md;
+}
+
+/* Dark theme button overrides */
+[data-theme="dark"] .btn-coffee-like {
+    @apply bg-coffee-700 hover:bg-coffee-600 text-latte-300 hover:text-latte-100;
+}
+
+[data-theme="dark"] .btn-coffee-dislike {
+    @apply bg-coffee-800 hover:bg-coffee-700 text-coffee-300 hover:text-coffee-100;
+}
+
+[data-theme="dark"] .btn-coffee-comment {
+    @apply bg-coffee-600 hover:bg-coffee-500 text-latte-200 hover:text-cream-100;
+}
+
+[data-theme="dark"] .btn-coffee-edit {
+    @apply bg-coffee-700 hover:bg-coffee-600 text-latte-300 hover:text-cream-100;
+}
+
+[data-theme="dark"] .btn-coffee-delete {
+    @apply bg-coffee-800 hover:bg-coffee-700 text-coffee-300 hover:text-coffee-100;
+}
+
+[data-theme="dark"] .btn-coffee-share {
+    @apply bg-coffee-700 hover:bg-coffee-600 text-latte-300 hover:text-latte-100;
+}
+
+/* Input Coffee Theme */
+.input-coffee {
+    @apply w-full px-4 py-3 border border-coffee-200 dark:border-coffee-600 rounded-lg focus:ring-2 focus:ring-coffee-400 focus:border-transparent transition-all duration-300 placeholder-coffee-400 dark:placeholder-coffee-500 bg-cream-100 dark:bg-coffee-800 text-coffee-900 dark:text-cream-100;
+}
+
+/* Slightly brighter variants for light mode forms */
+.input-coffee:is(input, textarea, select) {
+    @apply bg-cream-100;
+}
+
+/* Card Coffee Theme */
+.card-coffee {
+    @apply bg-cream-50 dark:bg-coffee-800 border border-coffee-200 dark:border-coffee-600 rounded-xl;
+}
+
+/* Text utilities with better contrast */
+.text-coffee-contrast {
+    @apply text-coffee-900 dark:text-cream-100;
+}
+
+.text-coffee-muted {
+    @apply text-coffee-600 dark:text-coffee-300;
+}
+
+.text-coffee-subtle {
+    @apply text-coffee-500 dark:text-coffee-400;
+}
+
+/* Base typography */
+body {
+    color: var(--coffee-800);
+}
+
+[data-theme="dark"] body {
+    color: #f6eadf; /* bright, warm light text for contrast */
+}
+
+a {
+    color: var(--coffee-600);
+}
+
+[data-theme="dark"] a {
+    color: var(--coffee-800); /* warm accent links on dark */
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--coffee-700);
+}
+
+[data-theme="dark"] h1, 
+[data-theme="dark"] h2, 
+[data-theme="dark"] h3, 
+[data-theme="dark"] h4, 
+[data-theme="dark"] h5, 
+[data-theme="dark"] h6 {
+    color: #ffe9cc;
 }
 
 /* Custom scrollbar */
@@ -43,6 +226,19 @@
 
 ::-webkit-scrollbar-thumb:hover {
     background: var(--coffee-400);
+}
+
+/* Themed page background */
+.theme-bg {
+    background: radial-gradient(1200px 400px at -10% -10%, var(--cream-100), transparent 60%),
+                radial-gradient(800px 300px at 110% -10%, var(--cream-200), transparent 50%),
+                linear-gradient(135deg, var(--cream-50), var(--cream-100));
+}
+
+[data-theme="dark"] .theme-bg {
+    background: radial-gradient(1200px 400px at -10% -10%, #221a14, transparent 60%),
+                radial-gradient(800px 300px at 110% -10%, #2a1f17, transparent 50%),
+                linear-gradient(135deg, var(--cream-100), var(--cream-50));
 }
 
 /* Floating animations */
@@ -99,6 +295,12 @@
     backdrop-filter: blur(10px);
     background: rgba(255, 248, 232, 0.8);
     border: 1px solid rgba(139, 69, 19, 0.1);
+}
+
+[data-theme="dark"] .glass {
+    background: rgba(34, 26, 20, 0.55);
+    border-color: rgba(255, 255, 255, 0.08);
+    color: #f3e6d6;
 }
 
 /* Hover effects */
@@ -158,10 +360,211 @@
     transform: translateY(-2px);
 }
 
+[data-theme="dark"] .card-coffee {
+    background: linear-gradient(145deg, var(--coffee-50), var(--coffee-100));
+    border-color: rgba(255,255,255,0.08);
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.6), 0 2px 4px -1px rgba(0,0,0,0.4);
+    color: #f6eadf;
+}
+
+[data-theme="dark"] .btn-cream {
+    background: linear-gradient(135deg, var(--coffee-300), var(--coffee-400));
+    color: #fff;
+    box-shadow: 0 4px 14px 0 rgba(0,0,0,0.35);
+}
+
+[data-theme="dark"] .btn-coffee {
+    box-shadow: 0 4px 14px 0 rgba(0,0,0,0.45);
+}
+
 /* Text gradient */
 .text-gradient {
-    background: linear-gradient(135deg, var(--coffee-600), var(--coffee-400));
+    background: linear-gradient(135deg, var(--coffee-600), var(--coffee-800));
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    background-clip: text;
+    background-size: 200% 200%;
+    animation: gradientMove 4s ease-in-out infinite;
+    font-weight: 700;
 }
+
+[data-theme="dark"] .text-gradient {
+    background: linear-gradient(135deg, var(--cream-100), var(--latte-100));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% 200%;
+    animation: gradientMove 4s ease-in-out infinite;
+}
+
+@keyframes gradientMove {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+/* Decorations visibility in dark */
+.theme-bubble { opacity: 0.25; }
+[data-theme="dark"] .theme-bubble { opacity: 0.12; }
+
+/* Forms: inputs, textarea, select */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="search"],
+input[type="file"],
+textarea,
+select {
+    background-color: #fff;
+    color: var(--coffee-800);
+    border: 1px solid var(--cream-200);
+}
+
+[data-theme="dark"] input[type="text"],
+[data-theme="dark"] input[type="email"],
+[data-theme="dark"] input[type="password"],
+[data-theme="dark"] input[type="number"],
+[data-theme="dark"] input[type="search"],
+[data-theme="dark"] input[type="file"],
+[data-theme="dark"] textarea,
+[data-theme="dark"] select {
+    background-color: rgba(47, 37, 29, 0.6);
+    color: #f6eadf;
+    border: 1px solid rgba(255,255,255,0.12);
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.35);
+}
+
+/* Focus styles */
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: var(--coffee-400);
+    box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.15);
+}
+
+[data-theme="dark"] input:focus,
+[data-theme="dark"] textarea:focus,
+[data-theme="dark"] select:focus {
+    border-color: var(--coffee-700);
+    box-shadow: 0 0 0 3px rgba(201, 116, 67, 0.25);
+}
+
+/* Placeholder + labels in dark mode */
+::placeholder {
+    color: rgba(107, 82, 68, 0.8);
+}
+
+[data-theme="dark"] ::placeholder {
+    color: rgba(246, 234, 223, 0.6);
+}
+
+label {
+    color: var(--coffee-700);
+}
+
+[data-theme="dark"] label {
+    color: #f0e2d2;
+}
+
+/* Make overly bright utility backgrounds darker in dark mode */
+[data-theme="dark"] .bg-white { background-color: var(--coffee-50) !important; color: #f6eadf; }
+[data-theme="dark"] .bg-cream-50 { background-color: var(--cream-200) !important; color: #f6eadf; }
+[data-theme="dark"] .bg-cream-100 { background-color: var(--cream-300) !important; color: #f6eadf; }
+[data-theme="dark"] .bg-cream-200 { background-color: var(--cream-400) !important; color: #f6eadf; }
+[data-theme="dark"] .bg-latte-50 { background-color: var(--coffee-50) !important; color: #f6eadf; }
+[data-theme="dark"] .bg-latte-100 { background-color: var(--coffee-100) !important; color: #f6eadf; }
+[data-theme="dark"] .bg-latte-200 { background-color: var(--coffee-200) !important; color: #f6eadf; }
+[data-theme="dark"] .bg-latte-300 { background-color: var(--coffee-300) !important; color: #f6eadf; }
+[data-theme="dark"] .bg-latte-400 { background-color: var(--coffee-400) !important; color: #1a120c; }
+
+/* Brighten common text utilities in dark mode */
+[data-theme="dark"] .text-coffee-900,
+[data-theme="dark"] .text-coffee-800,
+[data-theme="dark"] .text-coffee-700,
+[data-theme="dark"] .text-coffee-600 { color: #f6eadf !important; }
+[data-theme="dark"] .text-coffee-500 { color: #e7d6c6 !important; }
+
+/* Hover backgrounds shouldn't flash bright in dark mode */
+[data-theme="dark"] .hover\:bg-cream-100:hover { background-color: var(--coffee-50) !important; }
+[data-theme="dark"] .hover\:bg-cream-200:hover { background-color: var(--coffee-100) !important; }
+[data-theme="dark"] .hover\:bg-cream-300:hover { background-color: var(--coffee-200) !important; }
+[data-theme="dark"] .hover\:bg-latte-100:hover { background-color: var(--coffee-100) !important; }
+[data-theme="dark"] .hover\:bg-latte-200:hover { background-color: var(--coffee-200) !important; }
+[data-theme="dark"] .hover\:bg-latte-400:hover { background-color: var(--coffee-400) !important; color: #1a120c !important; }
+
+/* Chat area background in dark mode */
+[data-theme="dark"] #messages { background-color: var(--coffee-50) !important; }
+
+/* Chat bubbles */
+.chat-bubble.other { background-color: #ffffff; color: var(--coffee-800); }
+.chat-bubble.me { background: linear-gradient(135deg, var(--coffee-500), var(--coffee-600)); color: #fff; }
+
+[data-theme="dark"] .chat-bubble.other {
+    background-color: rgba(60, 46, 37, 0.85); /* darker than messages pane */
+    color: #f6eadf;
+}
+[data-theme="dark"] .chat-bubble.me {
+    background: linear-gradient(135deg, var(--coffee-600), var(--coffee-700));
+    color: #fff;
+}
+
+/* Helper chips for stats and vote totals */
+.stat-chip {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem; /* p-3 */
+    border-radius: 0.5rem; /* rounded-lg */
+    background-color: var(--cream-100);
+}
+[data-theme="dark"] .stat-chip {
+    background-color: var(--coffee-100);
+    color: #f6eadf;
+}
+
+.vote-total {
+    padding: 0.5rem 0.75rem; /* py-2 px-3 */
+    border-radius: 0.5rem; /* rounded-lg */
+    background-color: var(--coffee-50);
+}
+[data-theme="dark"] .vote-total {
+    background-color: var(--coffee-100);
+    color: #f6eadf;
+}
+
+/* Ensure readable text inside cards on LIGHT theme
+   Fixes cases where nested replies look too pale due to conflicting utilities */
+html:not([data-theme="dark"]) .card-coffee p {
+    color: var(--coffee-900) !important; /* primary content text */
+}
+html:not([data-theme="dark"]) .card-coffee :where(span, small, a, strong, em) {
+    color: var(--coffee-800) !important; /* meta/usernames slightly softer than content */
+}
+/* Keep timestamps/muted text softer */
+html:not([data-theme="dark"]) .card-coffee .text-coffee-600,
+html:not([data-theme="dark"]) .card-coffee .text-coffee-subtle,
+html:not([data-theme="dark"]) .card-coffee .text-coffee-muted {
+    color: var(--coffee-600) !important;
+}
+/* Do not override interactive controls */
+html:not([data-theme="dark"]) .card-coffee :where(button, .btn-coffee-like, .btn-coffee-dislike, .btn-coffee-comment,
+  .btn-coffee-edit, .btn-coffee-delete, .btn-coffee-share){
+    color: inherit; /* preserve their own utility colors */
+}
+
+/* Final override to ensure high-contrast input text (light + dark) */
+.input-coffee {
+    background-color: var(--cream-100) !important;
+    color: var(--coffee-900) !important;
+    border-color: var(--coffee-200) !important;
+    caret-color: var(--coffee-900);
+}
+.input-coffee::placeholder { color: var(--coffee-500) !important; }
+[data-theme="dark"] .input-coffee {
+    background-color: var(--coffee-800) !important;
+    color: #f6eadf !important;
+    border-color: var(--coffee-600) !important;
+    caret-color: #f6eadf;
+}
+[data-theme="dark"] .input-coffee::placeholder { color: var(--coffee-400) !important; }

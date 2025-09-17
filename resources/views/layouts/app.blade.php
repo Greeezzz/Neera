@@ -15,7 +15,7 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         @livewireStyles
     </head>
-    <body class="font-sans antialiased bg-gradient-to-br from-cream-50 via-cream-100 to-latte-50 min-h-screen">
+    <body class="font-sans antialiased theme-bg min-h-screen">
         
         <!-- Background decorations -->
         <div class="fixed inset-0 overflow-hidden pointer-events-none">
@@ -49,7 +49,90 @@
         
         @livewireScripts
         
-        <!-- Alpine.js untuk animasi interaktif -->
-        <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+        <!-- Debug: Check if Livewire is loaded -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                console.log('DOM loaded');
+                console.log('Livewire:', typeof window.Livewire);
+                if (window.Livewire) {
+                    console.log('✅ Livewire is loaded');
+                } else {
+                    console.log('❌ Livewire is NOT loaded');
+                }
+            });
+        </script>
+        
+        <!-- Theme toggle script -->
+        <script>
+            (function(){
+                const saved = localStorage.getItem('theme') || 'light';
+                document.documentElement.setAttribute('data-theme', saved);
+                updateThemeIcons(saved);
+            })();
+            
+            function updateThemeIcons(theme) {
+                const lightIcon = document.getElementById('theme-icon-light');
+                const darkIcon = document.getElementById('theme-icon-dark');
+                const mobileText = document.getElementById('theme-text-mobile');
+                
+                if (lightIcon && darkIcon) {
+                    if (theme === 'light') {
+                        lightIcon.style.display = 'inline';
+                        darkIcon.style.display = 'none';
+                    } else {
+                        lightIcon.style.display = 'none';
+                        darkIcon.style.display = 'inline';
+                    }
+                }
+                
+                if (mobileText) {
+                    mobileText.textContent = theme === 'light' ? 'Dark' : 'Light';
+                }
+            }
+            
+            window.toggleTheme = function(){
+                console.log('toggleTheme called');
+                const current = document.documentElement.getAttribute('data-theme') || 'light';
+                console.log('Current theme:', current);
+                const next = current === 'light' ? 'dark' : 'light';
+                console.log('Next theme:', next);
+                document.documentElement.setAttribute('data-theme', next);
+                localStorage.setItem('theme', next);
+                updateThemeIcons(next);
+                window.dispatchEvent(new CustomEvent('theme-change', { detail: next }));
+                console.log('Theme changed to:', next);
+            }
+            
+            function closeMobileMenu() {
+                // Find mobile menu and close it - this might need adjustment based on your mobile menu implementation
+                const mobileMenu = document.querySelector('[data-mobile-menu]');
+                if (mobileMenu) {
+                    mobileMenu.style.display = 'none';
+                }
+            }
+            
+            // Delete confirmation modal
+            function confirmDelete(postId) {
+                if (confirm('🗑️ Are you sure you want to delete this post?\n\nThis action cannot be undone!')) {
+                    // Call Livewire method directly
+                    window.Livewire.find(document.querySelector('[wire\\:id]').getAttribute('wire:id')).call('deletePost', postId);
+                }
+            }
+            
+            // Image modal for full view
+            function openImageModal(imageSrc) {
+                const modal = document.createElement('div');
+                modal.className = 'fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4';
+                modal.onclick = function() { document.body.removeChild(modal); };
+                
+                const img = document.createElement('img');
+                img.src = imageSrc;
+                img.className = 'max-w-full max-h-full rounded-lg shadow-2xl';
+                img.onclick = function(e) { e.stopPropagation(); };
+                
+                modal.appendChild(img);
+                document.body.appendChild(modal);
+            }
+        </script>
     </body>
 </html>

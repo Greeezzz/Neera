@@ -19,10 +19,10 @@
         <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
             <div class="card-coffee p-0 overflow-hidden flex flex-col" style="min-height: 70vh;">
                 <!-- Messages area -->
-                <div id="messages" class="flex-1 overflow-y-auto p-4 space-y-3 bg-cream-50">
+                <div id="messages" class="flex-1 overflow-y-auto p-4 space-y-3">
                     @foreach($conversation->messages as $m)
                         <div class="flex {{ $m->sender_id === $me->id ? 'justify-end' : 'justify-start' }}" data-id="{{ $m->id }}" data-me="{{ $m->sender_id === $me->id ? '1' : '0' }}">
-                            <div tabindex="0" class="group relative max-w-[70%] rounded-2xl px-4 pr-8 py-2 shadow {{ $m->sender_id === $me->id ? 'bg-coffee-500 text-white rounded-br-sm' : 'bg-white text-coffee-800 rounded-bl-sm' }}">
+                            <div tabindex="0" class="group chat-bubble {{ $m->sender_id === $me->id ? 'me' : 'other' }} relative max-w-[70%] rounded-2xl px-4 pr-8 py-2 shadow {{ $m->sender_id === $me->id ? 'bg-coffee-500 text-white rounded-br-sm' : 'bg-white rounded-bl-sm' }}">
                                 @if($m->body)
                                     <div class="whitespace-pre-wrap msg-body">{{ $m->body }}</div>
                                 @endif
@@ -33,10 +33,10 @@
                                 @if($m->sender_id === $me->id)
                                 <div class="absolute top-1 {{ $m->sender_id === $me->id ? 'right-1' : 'left-1' }} z-10 flex items-center gap-1 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:focus-within:opacity-100 pointer-events-none group-hover:pointer-events-auto focus-within:pointer-events-auto transition-opacity">
                                     <div class="relative">
-                                        <button aria-label="Message menu" class="w-7 h-7 rounded-full bg-cream-200 text-coffee-800 hover:bg-cream-300 flex items-center justify-center shadow cursor-pointer" onclick="toggleMenu(event, {{ $m->id }})">⋮</button>
+                                        <button aria-label="Message menu" class="w-7 h-7 rounded-full bg-cream-200 hover:bg-cream-300 flex items-center justify-center shadow cursor-pointer" onclick="toggleMenu(event, {{ $m->id }})">⋮</button>
                                         <div id="menu-{{ $m->id }}" class="hidden absolute z-20 mt-1 {{ $m->sender_id === $me->id ? 'right-0' : 'left-0' }} bg-white border border-coffee-200 rounded-lg shadow-lg overflow-hidden">
-                                            <button class="block w-full text-left px-3 py-2 text-sm hover:bg-cream-100 text-coffee-800" onclick="startEdit({{ $m->id }})">✏️ Edit</button>
-                                            <button class="block w-full text-left px-3 py-2 text-sm hover:bg-cream-100 text-coffee-800" onclick="enterSelectMode({{ $m->id }})">🗑️ Delete…</button>
+                                            <button class="block w-full text-left px-3 py-2 text-sm hover:bg-cream-100" onclick="startEdit({{ $m->id }})">✏️ Edit</button>
+                                            <button class="block w-full text-left px-3 py-2 text-sm hover:bg-cream-100" onclick="enterSelectMode({{ $m->id }})">🗑️ Delete…</button>
                                         </div>
                                     </div>
                                 </div>
@@ -49,7 +49,7 @@
                 <!-- Input area -->
                 <form id="sendForm" action="{{ route('chat.send', $other) }}" method="POST" enctype="multipart/form-data" class="border-t border-coffee-200/40 p-3 bg-white flex items-center gap-2 sticky bottom-0">
                     @csrf
-                    <label class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-cream-200 text-coffee-700 hover:bg-cream-300 cursor-pointer">
+                    <label class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-cream-200 hover:bg-cream-300 cursor-pointer">
                         📎
                         <input type="file" name="image" accept="image/*" class="hidden" onchange="document.getElementById('sendForm').submit()" />
                     </label>
@@ -76,7 +76,7 @@
             wrapper.dataset.id = m.id;
             wrapper.dataset.me = m.me ? '1' : '0';
             const bubble = document.createElement('div');
-            bubble.className = 'group relative max-w-[70%] rounded-2xl px-4 ' + (m.me ? 'pr-8 ' : '') + 'py-2 shadow ' + (m.me ? 'bg-coffee-500 text-white rounded-br-sm' : 'bg-white text-coffee-800 rounded-bl-sm');
+            bubble.className = 'group chat-bubble ' + (m.me ? 'me ' : 'other ') + 'relative max-w-[70%] rounded-2xl px-4 ' + (m.me ? 'pr-8 ' : '') + 'py-2 shadow ' + (m.me ? 'bg-coffee-500 text-white rounded-br-sm' : 'bg-white rounded-bl-sm');
             if(m.body){
                 const t = document.createElement('div');
                 t.className = 'whitespace-pre-wrap msg-body';
@@ -97,10 +97,10 @@
                 const menuWrap = document.createElement('div');
                 menuWrap.className = 'absolute top-1 right-1 z-10 flex items-center opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity';
                 menuWrap.innerHTML = `<div class="relative">
-                    <button class="w-7 h-7 rounded-full bg-cream-200 text-coffee-800 hover:bg-cream-300 flex items-center justify-center shadow cursor-pointer" onclick="toggleMenu(event, ${m.id})">⋮</button>
+                    <button class="w-7 h-7 rounded-full bg-cream-200 hover:bg-cream-300 flex items-center justify-center shadow cursor-pointer" onclick="toggleMenu(event, ${m.id})">⋮</button>
                     <div id="menu-${m.id}" class="hidden absolute z-20 mt-1 right-0 bg-white border border-coffee-200 rounded-lg shadow-lg overflow-hidden">
-                        <button class="block w-full text-left px-3 py-2 text-sm hover:bg-cream-100 text-coffee-800" onclick="startEdit(${m.id})">✏️ Edit</button>
-                        <button class="block w-full text-left px-3 py-2 text-sm hover:bg-cream-100 text-coffee-800" onclick="enterSelectMode(${m.id})">🗑️ Delete…</button>
+                        <button class="block w-full text-left px-3 py-2 text-sm hover:bg-cream-100" onclick="startEdit(${m.id})">✏️ Edit</button>
+                        <button class="block w-full text-left px-3 py-2 text-sm hover:bg-cream-100" onclick="enterSelectMode(${m.id})">🗑️ Delete…</button>
                     </div>
                 </div>`;
                 bubble.appendChild(menuWrap);

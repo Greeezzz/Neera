@@ -15,9 +15,9 @@
             </div>
 
             <!-- Main Content -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 gap-6">
                 <!-- Posts Section (Left - Main) -->
-                <div class="lg:col-span-2 space-y-6">
+                <div class="space-y-6">
                     <div class="animate-slide-in-left">
                         <livewire:posts />
                     </div>
@@ -28,22 +28,22 @@
                     <!-- Quick Stats -->
                     <div class="animate-fade-in-up" style="animation-delay: 0.3s;">
                         <div class="card-coffee p-6 hover-lift">
-                            <h3 class="text-lg font-bold text-coffee-700 mb-4 flex items-center">
+                            <h3 class="text-lg font-bold mb-4 flex items-center">
                                 <span class="mr-2">📊</span>
                                 Your Activity
                             </h3>
                             <div class="space-y-3">
-                                <div class="flex justify-between items-center p-3 bg-cream-100 rounded-lg">
-                                    <span class="text-coffee-600">Posts</span>
-                                    <span class="font-bold text-coffee-700">{{ auth()->user()->posts->count() }}</span>
+                                <div class="stat-chip">
+                                    <span>Posts</span>
+                                    <span class="font-bold">{{ auth()->user()->posts->count() }}</span>
                                 </div>
-                                <div class="flex justify-between items-center p-3 bg-latte-100 rounded-lg">
-                                    <span class="text-coffee-600">Comments</span>
-                                    <span class="font-bold text-coffee-700">{{ auth()->user()->comments->count() }}</span>
+                                <div class="stat-chip">
+                                    <span>Comments</span>
+                                    <span class="font-bold">{{ auth()->user()->comments->count() }}</span>
                                 </div>
-                                <div class="flex justify-between items-center p-3 bg-cream-200 rounded-lg">
-                                    <span class="text-coffee-600">Friends</span>
-                                    <span class="font-bold text-coffee-700">{{ auth()->user()->friends()->count() }}</span>
+                                <div class="stat-chip">
+                                    <span>Friends</span>
+                                    <span class="font-bold">{{ auth()->user()->friends()->count() }}</span>
                                 </div>
                             </div>
                         </div>

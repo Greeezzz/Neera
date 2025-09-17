@@ -1,308 +1,275 @@
 <div class="space-y-6">
-    {{-- Flash Messages --}}
+    <!-- Flash Messages -->
     @if (session()->has('message'))
-        <div class="card-coffee p-4 border-l-4 border-coffee-400 animate-fade-in-up" 
-             x-data="{ show: true }" 
-             x-show="show" 
-             x-init="setTimeout(() => show = false, 5000)"
-             x-transition:leave="transition ease-in duration-300"
-             x-transition:leave-start="opacity-100 transform scale-100"
-             x-transition:leave-end="opacity-0 transform scale-95">
+        <div class="glass rounded-xl p-4 border border-coffee-200/30 bg-green-50/80 text-green-800 animate-fade-in">
             <div class="flex items-center justify-between">
-                <div class="flex items-center">
-                    <div class="w-5 h-5 rounded-full bg-coffee-400 flex items-center justify-center mr-3">
-                        <span class="text-white text-xs">✓</span>
-                    </div>
-                    <span class="text-coffee-700 font-medium">{{ session('message') }}</span>
-                </div>
-                <button @click="show = false" class="text-coffee-400 hover:text-coffee-600 transition-all duration-300">
-                    ✕
-                </button>
+                <span class="font-medium">{{ session('message') }}</span>
+                <button onclick="this.parentElement.parentElement.remove()" class="text-green-600 hover:text-green-800">✕</button>
             </div>
         </div>
     @endif
 
-    @if (session()->has('error'))
-        <div class="card-coffee p-4 border-l-4 border-red-400 bg-red-50 animate-fade-in-up"
-             x-data="{ show: true }" 
-             x-show="show" 
-             x-init="setTimeout(() => show = false, 5000)"
-             x-transition:leave="transition ease-in duration-300"
-             x-transition:leave-start="opacity-100 transform scale-100"
-             x-transition:leave-end="opacity-0 transform scale-95">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center">
-                    <div class="w-5 h-5 rounded-full bg-red-400 flex items-center justify-center mr-3">
-                        <span class="text-white text-xs">!</span>
-                    </div>
-                    <span class="text-red-700 font-medium">{{ session('error') }}</span>
-                </div>
-                <button @click="show = false" class="text-red-400 hover:text-red-600 transition-all duration-300">
-                    ✕
-                </button>
+    <!-- Create Post Form -->
+    <div class="card-coffee p-6 shadow-lg">
+        <div class="flex items-center space-x-3 mb-4">
+            <div class="w-10 h-10 bg-gradient-to-br from-coffee-500 to-coffee-600 rounded-full flex items-center justify-center shadow-md">
+                <span class="text-cream-50 font-bold">📝</span>
             </div>
+            <h2 class="text-xl font-semibold text-gradient">Share Your Thoughts</h2>
         </div>
-    @endif
-
-    {{-- Header --}}
-    <div class="card-coffee p-6 hover-lift">
-        <div class="flex justify-between items-center">
-            <div>
-                <h2 class="text-2xl font-bold text-gradient mb-2">✍️ Share Your Thoughts</h2>
-                <p class="text-coffee-600">What's brewing in your mind today?</p>
-            </div>
-            <div class="flex items-center gap-3">
-                <div class="text-sm text-coffee-500 bg-cream-100 px-3 py-1 rounded-full">
-                    {{ $posts->count() }} posts
-                </div>
-                <button wire:click="refreshPosts" 
-                        class="btn-cream hover:scale-105 flex items-center gap-2"
-                        wire:loading.attr="disabled"
-                        wire:target="refreshPosts">
-                    <span wire:loading.remove wire:target="refreshPosts">🔄 Refresh</span>
-                    <span wire:loading wire:target="refreshPosts">⏳ Refreshing...</span>
-                </button>
-            </div>
-        </div>
-    </div>
-    
-    {{-- Loading indicator --}}
-    <div wire:loading.delay class="text-coffee-500 text-sm flex items-center justify-center p-4">
-        <div class="animate-pulse-soft">🔄 Updating posts...</div>
-    </div>
-    
-    {{-- Create Post --}}
-    <div class="card-coffee p-6 hover-lift">
+        
         <form wire:submit.prevent="save" class="space-y-4">
-            <div class="flex items-center space-x-3 mb-4">
-                <div class="w-10 h-10 bg-coffee-400 rounded-full flex items-center justify-center">
-                    <span class="text-white font-bold">{{ substr(auth()->user()->name, 0, 1) }}</span>
+            <!-- Title Field -->
+        <div>
+                <label for="title" class="block text-sm font-medium text-coffee-700 dark:text-coffee-300 mb-2">Post Title</label>
+                <input 
+                    type="text"
+                    wire:model="title" 
+                    id="title"
+            class="input-coffee w-full"
+                    placeholder="What's the topic of your post?"
+                />
+                @error('title') 
+                    <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span> 
+                @enderror
+            </div>
+
+            <!-- Content Field -->
+        <div>
+                <label for="content" class="block text-sm font-medium text-coffee-700 dark:text-coffee-300 mb-2">Content</label>
+                <textarea 
+                    wire:model="content" 
+                    id="content"
+                    rows="4" 
+            class="input-coffee w-full resize-none"
+                    placeholder="Share your thoughts, ideas, or what you're working on..."
+                ></textarea>
+                @error('content') 
+                    <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span> 
+                @enderror
+            </div>
+
+            <!-- Media Upload -->
+            <div>
+                <label for="media" class="block text-sm font-medium text-coffee-700 dark:text-coffee-300 mb-2">Add Media (Optional)</label>
+                <div class="border-2 border-dashed border-coffee-200 dark:border-coffee-600 rounded-lg p-4 hover:border-coffee-300 dark:hover:border-coffee-500 transition-colors bg-cream-50 dark:bg-coffee-800">
+                    <input 
+                        type="file" 
+                        wire:model="media" 
+                        id="media"
+                        accept="image/*,video/*"
+                        class="block w-full text-sm text-coffee-600 dark:text-coffee-300 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-latte-100 dark:file:bg-coffee-700 file:text-coffee-700 dark:file:text-coffee-200 hover:file:bg-latte-200 dark:hover:file:bg-coffee-600"
+                    />
+                    <p class="text-xs text-coffee-500 dark:text-coffee-400 mt-1">Support: JPG, PNG, MP4, MOV, AVI (Max: 20MB)</p>
                 </div>
-                <div>
-                    <span class="font-medium text-coffee-700">{{ auth()->user()->name }}</span>
-                    <p class="text-sm text-coffee-500">Share what's on your mind</p>
-                </div>
+                @error('media') 
+                    <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span> 
+                @enderror
             </div>
             
-            <div class="space-y-4">
-                <input type="text" 
-                       wire:model="title" 
-                       placeholder="What's your post about?" 
-                       class="w-full border-2 border-cream-200 rounded-xl p-4 focus:border-coffee-400 focus:ring-2 focus:ring-coffee-200 transition-all duration-300 bg-cream-50">
-                
-                <textarea wire:model="content" 
-                          placeholder="Share your thoughts, experiences, or ask a question..." 
-                          rows="4"
-                          class="w-full border-2 border-cream-200 rounded-xl p-4 focus:border-coffee-400 focus:ring-2 focus:ring-coffee-200 transition-all duration-300 bg-cream-50 resize-none"></textarea>
-                
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center space-x-4">
-                        <label class="flex items-center space-x-2 cursor-pointer text-coffee-600 hover:text-coffee-700 transition-all duration-300">
-                            <input type="file" wire:model="media" class="hidden">
-                            <div class="btn-cream flex items-center space-x-2 hover:scale-105">
-                                <span>📎</span>
-                                <span>Add Media</span>
-                            </div>
-                        </label>
-                        @if($media)
-                            <div class="text-sm text-coffee-600 bg-cream-100 px-2 py-1 rounded">
-                                📄 File selected: {{ $media->getClientOriginalName() }}
-                            </div>
-                        @endif
-                    </div>
-                    
-                    <button type="submit" 
-                            class="btn-coffee flex items-center space-x-2 hover:scale-105"
-                            wire:loading.attr="disabled"
-                            wire:target="save">
-                        <span wire:loading.remove wire:target="save">🚀 Publish</span>
-                        <span wire:loading wire:target="save">⏳ Publishing...</span>
-                    </button>
-                </div>
-                
-                @if($errors->any())
-                    <div class="space-y-1">
-                        @error('title') <p class="text-red-500 text-sm flex items-center"><span class="mr-1">⚠️</span>{{ $message }}</p> @enderror
-                        @error('content') <p class="text-red-500 text-sm flex items-center"><span class="mr-1">⚠️</span>{{ $message }}</p> @enderror
-                        @error('media') <p class="text-red-500 text-sm flex items-center"><span class="mr-1">⚠️</span>{{ $message }}</p> @enderror
-                    </div>
-                @endif
+            <div class="flex justify-between items-center">
+                <span class="text-sm text-coffee-600 dark:text-coffee-400">{{ count($posts) }} posts</span>
+                <button 
+                    type="submit" 
+                    class="btn-coffee-primary"
+                    wire:loading.attr="disabled"
+                    wire:target="save"
+                >
+                    <span wire:loading.remove wire:target="save">🚀 Share Post</span>
+                    <span wire:loading wire:target="save">⏳ Posting...</span>
+                </button>
             </div>
         </form>
     </div>
-    </form>
 
-    {{-- Posts List --}}
+    <!-- Search Bar -->
+    <div class="card-coffee p-4">
+        <form method="GET" action="{{ request()->url() }}" class="flex items-center gap-3">
+            <div class="relative flex-1">
+                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-coffee-500">🔎</span>
+                <input
+                    name="search"
+                    value="{{ $search }}"
+                    type="text"
+                    placeholder="Search posts, content, or users..."
+                    class="input-coffee w-full pl-9"
+                    wire:model.debounce.300ms="search"
+                />
+            </div>
+            <button type="submit" class="btn-coffee-primary px-4 py-2 text-sm">Search</button>
+            @if(request('search'))
+                <a href="{{ request()->url() }}" class="btn-coffee-delete px-3 py-2 text-sm">Clear</a>
+            @endif
+        </form>
+    </div>
+
+    <!-- Posts List -->
     <div class="space-y-6">
-        @foreach($posts as $post)
-            <div class="card-coffee p-6 hover-lift animate-fade-in-up">
-                @if($editingPostId === $post->id)
-                    {{-- Edit Form --}}
-                    <form wire:submit.prevent="updatePost" class="space-y-4">
-                        <input type="text" 
-                               wire:model="editTitle" 
-                               class="w-full border-2 border-cream-200 rounded-xl p-4 focus:border-coffee-400 focus:ring-2 focus:ring-coffee-200 transition-all duration-300 bg-cream-50" 
-                               placeholder="Post title">
-                        <textarea wire:model="editContent" 
-                                  class="w-full border-2 border-cream-200 rounded-xl p-4 focus:border-coffee-400 focus:ring-2 focus:ring-coffee-200 transition-all duration-300 bg-cream-50 resize-none" 
-                                  placeholder="Write something..." 
-                                  rows="3"></textarea>
+        @forelse($posts as $post)
+            <div class="card-coffee group relative overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1">
+                {{-- Decorative Coffee Theme Elements --}}
+                <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-latte-100/40 dark:from-coffee-600/20 to-transparent rounded-bl-full"></div>
+                <div class="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-coffee-100/30 dark:from-latte-600/10 to-transparent rounded-tr-full"></div>
+                
+                <div class="relative z-10 p-6">
+                    <div class="flex items-start space-x-4">
+                        {{-- Enhanced Profile Picture --}}
+                        <div class="relative">
+                            <a href="{{ route('user.profile', $post->user->id) }}" title="View profile"
+                               class="block w-14 h-14 rounded-full overflow-hidden ring-2 ring-coffee-200 dark:ring-coffee-600 group-hover:ring-coffee-300 dark:group-hover:ring-coffee-500 transition-all duration-300 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-coffee-400">
+                                @if($post->user->profile_picture)
+                                    <img src="{{ asset('storage/' . $post->user->profile_picture) }}" 
+                                         alt="{{ $post->user->name }}" 
+                                         class="w-full h-full object-cover">
+                                @else
+                                    <div class="w-full h-full bg-gradient-to-br from-coffee-400 via-coffee-500 to-coffee-600 flex items-center justify-center">
+                                        <span class="text-cream-50 font-bold text-xl">
+                                            {{ strtoupper(substr($post->user->name, 0, 1)) }}
+                                        </span>
+                                    </div>
+                                @endif
+                            </a>
+                            {{-- Online Indicator --}}
+                            <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-white shadow-sm"></div>
+                            @if(auth()->user()->isFriendWith($post->user->id))
+                                <div class="absolute -top-1 -left-1 bg-latte-200 text-coffee-800 dark:bg-coffee-700 dark:text-latte-200 text-[10px] px-1.5 py-0.5 rounded-full shadow" title="Friend">👥</div>
+                            @endif
+                        </div>
+                        
+                        <div class="flex-1 min-w-0">
+                            {{-- Enhanced Header --}}
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="flex items-center gap-2">
+                                    <a href="{{ route('user.profile', $post->user->id) }}" class="font-medium text-base text-coffee-900 dark:text-cream-100 hover:underline" style="color: var(--coffee-900)">{{ $post->user->name }}</a>
+                                    @if(auth()->user()->isFriendWith($post->user->id))
+                                        <span class="text-coffee-600 dark:text-latte-300" title="Friend">👥</span>
+                                    @endif
+                                    <span class="px-2 py-0.5 bg-latte-200 text-coffee-800 border border-coffee-300 dark:bg-coffee-700 dark:text-latte-200 dark:border-coffee-600 text-xs rounded-full font-medium">
+                                        {{ $post->user->role ?? 'Member' }}
+                                    </span>
+                                </div>
+                                <time class="text-sm text-coffee-500 dark:text-coffee-400 font-medium">{{ $post->created_at->diffForHumans() }}</time>
+                            </div>
+                            
+                            {{-- Enhanced Title --}}
+                            @if($post->title)
+                                <h4 
+                                    wire:click="showPostDetail({{ $post->id }})"
+                                    class="text-xl font-bold text-gradient mb-3 cursor-pointer hover:opacity-80 transition-all duration-300 line-clamp-2"
+                                >
+                                    {{ $post->title }}
+                                </h4>
+                            @endif
+                            
+                            {{-- Enhanced Content --}}
+                            <div class="text-coffee-700 dark:text-coffee-200 leading-relaxed mb-5 whitespace-pre-wrap text-base">{{ $post->content }}</div>
                         
                         @if($post->media)
-                            <div class="mt-4 p-4 bg-cream-100 rounded-lg">
-                                <p class="text-sm text-coffee-600 mb-2">Current media:</p>
+                            <div class="mb-4">
                                 @php
-                                    $isVideo = in_array(pathinfo($post->media, PATHINFO_EXTENSION), ['mp4', 'mov', 'avi']);
+                                    $mediaPath = $post->media;
+                                    $isVideo = str_contains($mediaPath, '.mp4') || str_contains($mediaPath, '.mov') || str_contains($mediaPath, '.avi');
                                 @endphp
+                                
                                 @if($isVideo)
-                                    <video class="w-32 h-32 object-cover rounded-lg" controls>
-                                        <source src="{{ asset('storage/'.$post->media) }}">
+                                    <video controls class="max-h-64 w-full rounded-lg shadow-lg">
+                                        <source src="{{ asset('storage/' . $post->media) }}" type="video/mp4">
+                                        Your browser does not support the video tag.
                                     </video>
                                 @else
-                                    <img src="{{ asset('storage/'.$post->media) }}" class="w-32 h-32 object-cover rounded-lg" alt="Current image">
+                                    <img src="{{ asset('storage/' . $post->media) }}" 
+                                         class="max-h-64 w-auto rounded-lg shadow-lg cursor-pointer hover:shadow-xl transition-shadow" 
+                                         alt="Post image"
+                                         onclick="openImageModal('{{ asset('storage/' . $post->media) }}')">
                                 @endif
                             </div>
                         @endif
                         
-                        <div class="flex gap-3">
-                            <button type="submit" class="btn-coffee flex items-center space-x-2 hover:scale-105">
-                                <span>💾</span>
-                                <span>Update</span>
+                        <div class="flex items-center space-x-6 text-sm">
+                            <button 
+                                wire:click="vote({{ $post->id }}, 'up')"
+                                class="btn-coffee-like flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-300 hover:scale-105"
+                            >
+                                <span class="text-lg">👍</span>
+                                <span class="font-medium">{{ $post->upvotes_count ?? 0 }}</span>
                             </button>
-                            <button type="button" wire:click="cancelEdit" class="btn-cream flex items-center space-x-2 hover:scale-105">
-                                <span>✕</span>
-                                <span>Cancel</span>
+
+                            <button 
+                                wire:click="vote({{ $post->id }}, 'down')"
+                                class="btn-coffee-dislike flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-300 hover:scale-105"
+                            >
+                                <span class="text-lg">👎</span>
+                                <span class="font-medium">{{ $post->downvotes_count ?? 0 }}</span>
                             </button>
-                        </div>
-                        @error('editTitle') <p class="text-red-500 text-sm flex items-center"><span class="mr-1">⚠️</span>{{ $message }}</p> @enderror
-                        @error('editContent') <p class="text-red-500 text-sm flex items-center"><span class="mr-1">⚠️</span>{{ $message }}</p> @enderror
-                    </form>
-                @endif
-                
-                {{-- Normal Post Display --}}
-                @if($editingPostId !== $post->id)
-                    {{-- Post Header --}}
-                    <div class="flex items-start justify-between mb-4">
-                        <div class="flex items-center space-x-3">
-                            @if($post->user->profile_picture)
-                                <img src="{{ Storage::url($post->user->profile_picture) }}" 
-                                     alt="Profile" 
-                                     class="w-10 h-10 rounded-full object-cover border-2 border-coffee-300">
-                            @else
-                                <div class="w-10 h-10 bg-coffee-400 rounded-full flex items-center justify-center">
-                                    <span class="text-white font-bold text-sm">{{ substr($post->user->name, 0, 1) }}</span>
-                                </div>
-                            @endif
-                            <div>
-                                <a href="{{ route('user.profile', $post->user->id) }}" class="font-medium text-coffee-700 hover:text-coffee-800 transition-all duration-300">
-                                    {{ $post->user->name }}
-                                </a>
-                                <p class="text-xs text-coffee-500">{{ $post->created_at->diffForHumans() }}</p>
-                            </div>
-                        </div>
-                        
-                        @if($post->user_id === Auth::id())
-                            <div class="flex gap-2">
-                                <button wire:click="editPost({{ $post->id }})" 
-                                        class="px-3 py-1 bg-coffee-400 text-white rounded-lg text-xs hover:bg-coffee-500 transition-all duration-300 hover:scale-105 flex items-center space-x-1">
+                            
+                            <a 
+                                href="{{ route('post.detail', $post->id) }}"
+                                class="btn-coffee-comment flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-300 hover:scale-105"
+                            >
+                                <span class="text-lg">💬</span>
+                                <span class="font-medium">{{ $post->comments->count() }}</span>
+                                <span class="hidden sm:inline text-sm">Comments</span>
+                            </a>
+
+                            @if(auth()->id() === $post->user_id)
+                                <button 
+                                    wire:click="editPost({{ $post->id }})"
+                                    class="flex items-center space-x-2 text-coffee-600 hover:text-blue-600 transition-colors duration-200 hover:scale-105"
+                                >
                                     <span>✏️</span>
                                     <span>Edit</span>
                                 </button>
-                                <button wire:click="deletePost({{ $post->id }})" 
-                                        onclick="return confirm('Are you sure?')"
-                                        class="px-3 py-1 bg-red-500 text-white rounded-lg text-xs hover:bg-red-600 transition-all duration-300 hover:scale-105 flex items-center space-x-1">
+
+                                <button 
+                                    wire:click="deletePost({{ $post->id }})"
+                                    onclick="return confirm('Are you sure you want to delete this post?')"
+                                    class="flex items-center space-x-2 text-coffee-600 hover:text-red-600 transition-colors duration-200 hover:scale-105"
+                                >
                                     <span>🗑️</span>
                                     <span>Delete</span>
                                 </button>
+                            @endif
+                        </div>
+                        
+                        <!-- Comments Section -->
+                        @if(isset($showingComments[$post->id]))
+                            <div class="mt-4 pt-4 border-t border-coffee-200/30">
+                                <div class="space-y-3">
+                                    <!-- Comment Form -->
+                                    <div class="flex space-x-3">
+                                        <div class="w-8 h-8 bg-gradient-to-br from-coffee-400 to-coffee-500 rounded-full flex items-center justify-center flex-shrink-0">
+                                            <span class="text-cream-50 font-bold text-sm">
+                                                {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                                            </span>
+                                        </div>
+                                        <div class="flex-1">
+                                            <textarea 
+                                                placeholder="Write a comment..." 
+                                                class="w-full px-3 py-2 text-sm border border-coffee-200 rounded-lg focus:ring-2 focus:ring-coffee-400 focus:border-transparent resize-none bg-cream-50"
+                                                rows="2"
+                                            ></textarea>
+                                            <button class="mt-2 px-3 py-1 bg-coffee-500 text-cream-50 rounded-lg text-sm hover:bg-coffee-600 transition-colors">
+                                                Comment
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Sample Comments -->
+                                    <div class="text-sm text-coffee-600 italic">💬 Comment system coming soon...</div>
+                                </div>
                             </div>
                         @endif
                     </div>
-                    
-                    {{-- Post Content --}}
-                    <div class="mb-4">
-                        <h2 class="font-bold text-xl text-coffee-800 mb-2">{{ $post->title }}</h2>
-                        <p class="text-coffee-700 leading-relaxed">{{ $post->content }}</p>
-                    </div>
-
-                    @if($post->media)
-                        @php
-                            $isVideo = in_array(pathinfo($post->media, PATHINFO_EXTENSION), ['mp4', 'mov', 'avi']);
-                        @endphp
-                        
-                        <div class="mb-4">
-                            @if($isVideo)
-                                <video class="w-full max-w-md rounded-lg shadow-lg" controls>
-                                    <source src="{{ asset('storage/'.$post->media) }}">
-                                </video>
-                            @else
-                                <img src="{{ asset('storage/'.$post->media) }}" class="max-h-64 rounded-lg shadow-lg" alt="Post image">
-                            @endif
-                        </div>
-                    @endif
-
-                    {{-- Post Footer --}}
-                    <div class="border-t border-cream-200 pt-4 mt-4">
-                        {{-- Voting and Actions --}}
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center space-x-4">
-                                {{-- Voting Section with Status Indicator --}}
-                                @php
-                                    $userVote = $post->votes()->where('user_id', auth()->id())->first();
-                                    $upvoted = $userVote && $userVote->vote == 1;
-                                    $downvoted = $userVote && $userVote->vote == -1;
-                                    $totalVotes = $post->votes->sum('vote');
-                                @endphp
-                                
-                                <div class="flex items-center space-x-2">
-                                    <button wire:click="upvote({{ $post->id }})" 
-                                            class="flex items-center space-x-1 px-3 py-2 rounded-lg transition-all duration-300 hover:scale-105 {{ $upvoted ? 'bg-coffee-500 text-white' : 'bg-cream-100 text-coffee-600 hover:bg-cream-200' }}">
-                                        <span>{{ $upvoted ? '👍' : '👍🏻' }}</span>
-                                        <span class="text-sm font-medium">{{ $upvoted ? 'Upvoted' : 'Upvote' }}</span>
-                                    </button>
-                                    
-                                    <div class="px-3 py-2 bg-latte-100 rounded-lg">
-                                        <span class="text-coffee-700 font-bold">{{ $totalVotes }}</span>
-                                    </div>
-                                    
-                                    <button wire:click="downvote({{ $post->id }})" 
-                                            class="flex items-center space-x-1 px-3 py-2 rounded-lg transition-all duration-300 hover:scale-105 {{ $downvoted ? 'bg-red-500 text-white' : 'bg-cream-100 text-coffee-600 hover:bg-cream-200' }}">
-                                        <span>{{ $downvoted ? '👎' : '👎🏻' }}</span>
-                                        <span class="text-sm font-medium">{{ $downvoted ? 'Downvoted' : 'Downvote' }}</span>
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            {{-- Comments Button --}}
-                            <a href="{{ route('post.detail', $post->id) }}" 
-                               class="btn-cream flex items-center space-x-2 hover:scale-105">
-                                <span>💬</span>
-                                <span>Comments ({{ $post->comments->count() }})</span>
-                            </a>
-                        </div>
-                        
-                        {{-- Post Meta Info --}}
-                        <div class="flex items-center justify-between mt-3 pt-3 border-t border-cream-100">
-                            <div class="flex items-center space-x-2 text-sm text-coffee-500">
-                                <span>By</span>
-                                <a href="{{ route('user.profile', $post->user->id) }}" 
-                                   class="text-coffee-600 hover:text-coffee-700 font-medium transition-all duration-300 inline-flex items-center gap-1">
-                                    {{ $post->user->name }}
-                                    {{-- Friend Indicator --}}
-                                    @if(auth()->user()->isFriendWith($post->user->id))
-                                        <span class="text-coffee-400 text-xs" title="Friend">👥</span>
-                                    @endif
-                                </a>
-                            </div>
-                            
-                            <div class="text-xs text-coffee-400">
-                                {{ $post->created_at->diffForHumans() }}
-                            </div>
-                        </div>
-                    </div>
-                @endif
-
-                {{-- Remove the always-show comments section --}}
+                </div>
             </div>
-        @endforeach
+        @empty
+            <div class="glass rounded-xl p-8 border border-coffee-200/30 text-center">
+                <div class="w-16 h-16 bg-cream-200 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="text-2xl">📝</span>
+                </div>
+                <h3 class="text-lg font-medium text-coffee-800 mb-2">No posts yet</h3>
+                <p class="text-coffee-600">Be the first to share your thoughts!</p>
+            </div>
+        @endforelse
     </div>
 </div>

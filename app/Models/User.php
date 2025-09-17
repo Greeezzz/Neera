@@ -102,4 +102,10 @@ public function friendshipStatusWith($userId)
     return Friendship::getFriendshipStatus($this->id, $userId);
 }
 
+// Simple role helper; returns true if user role is 'admin'
+public function isAdmin(): bool
+{
+    return ($this->role ?? null) === 'admin';
+}
+
 }

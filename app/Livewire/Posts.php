@@ -13,6 +13,7 @@ class Posts extends Component
 {
     use WithFileUploads;
     public $title, $content, $media;
+    public $search = '';
     public $editingPostId = null;
     public $editTitle, $editContent;
 
@@ -24,7 +25,14 @@ class Posts extends Component
         'editContent' => 'required|string',
     ];
 
-    protected $listeners = [];
+    public $showingComments = [];
+    public $showingPostDetail = null;
+
+    protected $listeners = ['deletePost'];
+
+    protected $queryString = [
+        'search' => ['except' => ''],
+    ];
 
     public function mount()
     {
@@ -36,42 +44,27 @@ class Posts extends Component
         $this->validate([
             'title' => 'required|min:3',
             'content' => 'required|min:5',
-            'media' => 'nullable|file|max:2048', // 2MB max
+            'media' => 'nullable|file|max:2048',
         ]);
 
-        try {
-            $mediaPath = null;
-            
-            if ($this->media) {
-                $mediaPath = $this->media->store('posts', 'public');
-            }
-
-            $post = Post::create([
-                'title' => $this->title,
-                'content' => $this->content,
-                'media' => $mediaPath,
-                'user_id' => Auth::id(),
-            ]);
-            
-            // Debug message
-            if ($mediaPath) {
-                session()->flash('message', 'Post created with media: ' . $mediaPath);
-            } else {
-                session()->flash('message', 'Post created without media');
-            }
-
-            // Reset form
-            $this->reset(['title', 'content', 'media']);
-            
-            // Flash success message  
-            session()->flash('message', 'Post created successfully!');
-            
-            // Force re-render dengan data terbaru
-            $this->dispatch('postCreated');
-            
-        } catch (\Exception $e) {
-            session()->flash('error', 'Error creating post: ' . $e->getMessage());
+        $mediaPath = null;
+        
+        if ($this->media) {
+            $mediaPath = $this->media->store('posts', 'public');
         }
+
+        $post = Post::create([
+            'title' => $this->title,
+            'content' => $this->content,
+            'media' => $mediaPath,
+            'user_id' => Auth::id(),
+        ]);
+        
+        // Reset form
+        $this->reset(['title', 'content', 'media']);
+        
+        // Flash success message  
+        session()->flash('message', 'Post created successfully!');
     }
 
     public function upvote($postId)
@@ -164,6 +157,64 @@ class Posts extends Component
         $this->editContent = '';
     }
 
+    public function vote($postId, $type)
+    {
+        $post = Post::find($postId);
+        if (!$post) return;
+
+        $userId = Auth::id();
+        $voteValue = $type === 'up' ? 1 : -1; // Convert to database format
+        
+        // Check if user already voted
+        $existingVote = PostVote::where('post_id', $postId)
+                               ->where('user_id', $userId)
+                               ->first();
+
+        if ($existingVote) {
+            if ($existingVote->vote === $voteValue) {
+                // Remove vote if clicking same type
+                $existingVote->delete();
+            } else {
+                // Change vote type
+                $existingVote->update(['vote' => $voteValue]);
+            }
+        } else {
+            // Create new vote
+            PostVote::create([
+                'post_id' => $postId,
+                'user_id' => $userId,
+                'vote' => $voteValue
+            ]);
+        }
+
+        session()->flash('message', $type === 'up' ? '👍 Upvoted!' : '👎 Downvoted!');
+    }
+
+    public function toggleComments($postId)
+    {
+        if (isset($this->showingComments[$postId])) {
+            unset($this->showingComments[$postId]);
+        } else {
+            $this->showingComments[$postId] = true;
+        }
+    }
+
+    public function showComments($postId)
+    {
+        // TODO: Implement comments modal/section
+        session()->flash('message', '💬 Comments feature coming soon!');
+    }
+
+    public function showPostDetail($postId)
+    {
+        return redirect()->route('post.detail', $postId);
+    }
+
+    public function closePostDetail()
+    {
+        $this->showingPostDetail = null;
+    }
+
     public function refreshPosts()
     {
         // Clear any edit state
@@ -171,16 +222,31 @@ class Posts extends Component
         
         // Flash message untuk user feedback
         session()->flash('message', '🔄 Posts refreshed!');
-        
-        // Force component re-render
-        $this->dispatch('postsRefreshed');
     }
 
     public function render()
     {
         $posts = Post::with(['user', 'votes'])
+            ->withCount([
+                'votes as upvotes_count' => function($query) {
+                    $query->where('vote', 1); // 1 = upvote
+                },
+                'votes as downvotes_count' => function($query) {
+                    $query->where('vote', -1); // -1 = downvote
+                }
+            ])
+            ->when($this->search, function($q) {
+                $s = '%'.trim($this->search).'%';
+                $q->where(function($qq) use ($s) {
+                    $qq->where('title', 'like', $s)
+                       ->orWhere('content', 'like', $s)
+                       ->orWhereHas('user', function($uq) use ($s) {
+                           $uq->where('name', 'like', $s);
+                       });
+                });
+            })
             ->latest()
-            ->limit(10) // Batasi hanya 10 post terbaru
+            ->limit(10)
             ->get();
             
         return view('livewire.posts', compact('posts'));
