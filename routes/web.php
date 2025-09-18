@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\FriendshipController;
 use App\Http\Controllers\FriendRequestController;
+use App\Http\Controllers\FollowController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChatController;
 
@@ -25,6 +26,10 @@ Route::middleware('auth')->group(function () {
     
     // Friends page
     Route::get('/friends', [FriendRequestController::class, 'index'])->name('friends.index');
+
+    // Follow routes
+    Route::post('/follow/{user}', [FollowController::class, 'store'])->name('follow.store');
+    Route::delete('/follow/{user}', [FollowController::class, 'destroy'])->name('follow.destroy');
     
     // Post detail page
     Route::get('/post/{id}', function($id) {

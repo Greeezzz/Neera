@@ -108,4 +108,34 @@ public function isAdmin(): bool
     return ($this->role ?? null) === 'admin';
 }
 
+// Follow system
+public function followers()
+{
+    return $this->belongsToMany(User::class, 'follows', 'following_id', 'follower_id');
+}
+
+public function following()
+{
+    return $this->belongsToMany(User::class, 'follows', 'follower_id', 'following_id');
+}
+
+public function isFollowing($userId): bool
+{
+    return $this->following()->where('following_id', $userId)->exists();
+}
+
+public function follow($userId): bool
+{
+    if ($userId == $this->id || $this->isFollowing($userId)) return false;
+    $this->following()->attach($userId);
+    return true;
+}
+
+public function unfollow($userId): bool
+{
+    if (!$this->isFollowing($userId)) return false;
+    $this->following()->detach($userId);
+    return true;
+}
+
 }

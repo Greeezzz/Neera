@@ -75,8 +75,16 @@ class ProfileController extends Controller
     {
         $user = User::findOrFail($id);
         $posts = $user->posts()->with(['user', 'votes'])->latest()->get();
-        
-        return view('profile.show', compact('user', 'posts'));
+        $isOwn = auth()->id() === $user->id;
+        $followerCount = $user->followers()->count();
+        $followingCount = $user->following()->count();
+        $postCount = $posts->count();
+        $friendCount = $user->friends()->count();
+        $isFollowing = !$isOwn ? auth()->user()->isFollowing($user->id) : false;
+
+        return view('profile.show', compact(
+            'user', 'posts', 'isOwn', 'followerCount', 'followingCount', 'postCount', 'friendCount', 'isFollowing'
+        ));
     }
     
     /**

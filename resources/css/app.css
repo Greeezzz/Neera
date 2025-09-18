@@ -568,3 +568,287 @@ html:not([data-theme="dark"]) .card-coffee :where(button, .btn-coffee-like, .btn
     caret-color: #f6eadf;
 }
 [data-theme="dark"] .input-coffee::placeholder { color: var(--coffee-400) !important; }
+
+/* Profile page specific color fixes */
+/* Light theme: ensure profile cards have proper contrast */
+html:not([data-theme="dark"]) .bg-white\/95 {
+    background-color: rgba(255, 255, 255, 0.98) !important;
+    color: var(--coffee-900) !important;
+}
+
+html:not([data-theme="dark"]) .text-coffee-700 {
+    color: var(--coffee-800) !important;
+}
+
+html:not([data-theme="dark"]) .text-coffee-900 {
+    color: var(--coffee-900) !important;
+}
+
+html:not([data-theme="dark"]) .text-cream-100 {
+    color: var(--coffee-900) !important;
+}
+
+/* Dark theme profile colors */
+[data-theme="dark"] .bg-white\/95 {
+    background-color: rgba(67, 56, 40, 0.95) !important;
+    color: #f6eadf !important;
+}
+
+[data-theme="dark"] .text-coffee-700 {
+    color: #e7d6c6 !important;
+}
+
+[data-theme="dark"] .text-coffee-900 {
+    color: #f6eadf !important;
+}
+
+[data-theme="dark"] .text-cream-100 {
+    color: #f6eadf !important;
+}
+
+/* Profile page comprehensive theming fixes */
+/* Hero section backgrounds - lighter for light mode */
+html:not([data-theme="dark"]) .bg-gradient-to-br.from-cream-50 {
+    background: linear-gradient(to bottom right, #fefdf8, #ffffff, #f8f4f0) !important;
+}
+
+[data-theme="dark"] .bg-gradient-to-br.from-cream-50 {
+    background: linear-gradient(to bottom right, #1a1107, #2c1d0f, #3e2916) !important;
+}
+
+/* Main profile page background - much lighter kopi susu for light mode */
+html:not([data-theme="dark"]) .pb-10.min-h-screen.bg-gradient-to-br {
+    background: linear-gradient(to bottom right, #fdf8e8, #f9edc4, #f1e7d8) !important;
+}
+
+[data-theme="dark"] .pb-10.min-h-screen.bg-gradient-to-br {
+    background: linear-gradient(to bottom right, #1a1107, #2c1d0f, #3e2916) !important;
+}
+
+/* Hero cover gradient - kopi susu muda for light mode */
+html:not([data-theme="dark"]) .bg-gradient-to-br.from-coffee-400 {
+    background: linear-gradient(to bottom right, #d5b788, #c79f60, #b98738) !important;
+}
+
+[data-theme="dark"] .bg-gradient-to-br.from-coffee-400 {
+    background: linear-gradient(to bottom right, #2c1d0f, #3e2916, #50351e) !important;
+}
+
+/* Profile posts - light kopi susu for light mode */
+html:not([data-theme="dark"]) .bg-white\/95 {
+    background-color: rgba(253, 248, 232, 0.95) !important;
+    color: var(--coffee-900) !important;
+}
+
+[data-theme="dark"] .bg-white\/95 {
+    background-color: rgba(26, 17, 7, 0.95) !important;
+    color: #f6eadf !important;
+}
+
+/* Action bar - light kopi susu for light mode */
+html:not([data-theme="dark"]) .bg-white\/80 {
+    background-color: rgba(253, 248, 232, 0.9) !important;
+    color: var(--coffee-900) !important;
+    border-color: rgba(212, 186, 168, 0.4) !important;
+}
+
+[data-theme="dark"] .bg-white\/80 {
+    background-color: rgba(26, 17, 7, 0.9) !important;
+    color: #f6eadf !important;
+    border-color: rgba(62, 41, 22, 0.8) !important;
+}
+
+/* Vote pills - proper light colors for light mode */
+html:not([data-theme="dark"]) .bg-latte-100 {
+    background-color: #f1e7d8 !important;
+    color: #693911 !important;
+}
+
+html:not([data-theme="dark"]) .bg-coffee-100 {
+    background-color: #ede4dc !important;
+    color: #693911 !important;
+}
+
+[data-theme="dark"] .bg-latte-100 {
+    background-color: #2c1d0f !important;
+    color: #f6eadf !important;
+}
+
+[data-theme="dark"] .bg-coffee-100 {
+    background-color: #1a1107 !important;
+    color: #f6eadf !important;
+}
+
+/* Post card backgrounds - light kopi susu for light mode */
+html:not([data-theme="dark"]) .bg-coffee-800\/90 {
+    background-color: rgba(253, 248, 232, 0.95) !important;
+    border-color: rgba(212, 186, 168, 0.4) !important;
+}
+
+[data-theme="dark"] .bg-coffee-800\/90 {
+    background-color: rgba(26, 17, 7, 0.95) !important;
+    border-color: rgba(62, 41, 22, 0.6) !important;
+}
+
+/* Time stamp backgrounds - light kopi susu for light mode */
+html:not([data-theme="dark"]) .bg-coffee-50 {
+    background-color: #f7f3f0 !important;
+    color: #693911 !important;
+}
+
+[data-theme="dark"] .bg-coffee-50 {
+    background-color: #2c1d0f !important;
+    color: #f6eadf !important;
+}
+
+/* Font improvements for both light and dark modes */
+html:not([data-theme="dark"]) .text-coffee-700 {
+    color: #693911 !important;
+    font-weight: 500 !important;
+}
+
+html:not([data-theme="dark"]) .text-coffee-900 {
+    color: #472d0f !important;
+    font-weight: 600 !important;
+}
+
+[data-theme="dark"] .text-coffee-700 {
+    color: #f6eadf !important;
+    font-weight: 500 !important;
+}
+
+[data-theme="dark"] .text-coffee-900 {
+    color: #ffffff !important;
+    font-weight: 600 !important;
+}
+
+[data-theme="dark"] .text-cream-100 {
+    color: #ffffff !important;
+    font-weight: 500 !important;
+}
+
+/* Time stamps and meta text - better contrast */
+html:not([data-theme="dark"]) .text-coffee-500 {
+    color: #8b4513 !important;
+}
+
+[data-theme="dark"] .text-coffee-500.dark\:text-coffee-400 {
+    color: #d2b48c !important;
+}
+
+[data-theme="dark"] .text-coffee-200 {
+    color: #e7d6c6 !important;
+}
+
+/* Button text improvements */
+html:not([data-theme="dark"]) .text-coffee-700.dark\:text-latte-200 {
+    color: #693911 !important;
+}
+
+[data-theme="dark"] .text-coffee-300 {
+    color: #e7d6c6 !important;
+}
+
+[data-theme="dark"] .text-latte-200 {
+    color: #f0e2d2 !important;
+}
+
+/* Action bar backgrounds */
+html:not([data-theme="dark"]) .bg-white\/80 {
+    background-color: rgba(255, 255, 255, 0.9) !important;
+    color: var(--coffee-900) !important;
+}
+
+[data-theme="dark"] .bg-white\/80 {
+    background-color: rgba(67, 56, 40, 0.9) !important;
+    color: #f6eadf !important;
+}
+
+/* Tab buttons light theme */
+html:not([data-theme="dark"]) .text-coffee-600 {
+    color: var(--coffee-700) !important;
+}
+
+html:not([data-theme="dark"]) .hover\:bg-coffee-100:hover {
+    background-color: var(--cream-100) !important;
+}
+
+[data-theme="dark"] .text-coffee-600 {
+    color: var(--coffee-300) !important;
+}
+
+/* Modal backgrounds */
+html:not([data-theme="dark"]) .bg-white.dark\:bg-coffee-800 {
+    background-color: #ffffff !important;
+    color: var(--coffee-900) !important;
+}
+
+[data-theme="dark"] .bg-white.dark\:bg-coffee-800 {
+    background-color: var(--coffee-800) !important;
+    color: #f6eadf !important;
+}
+
+/* Modal text colors */
+html:not([data-theme="dark"]) .text-coffee-900.dark\:text-cream-100 {
+    color: var(--coffee-900) !important;
+}
+
+html:not([data-theme="dark"]) .text-coffee-600.dark\:text-coffee-300 {
+    color: var(--coffee-600) !important;
+}
+
+html:not([data-theme="dark"]) .text-coffee-700.dark\:text-cream-100 {
+    color: var(--coffee-700) !important;
+}
+
+[data-theme="dark"] .text-coffee-900.dark\:text-cream-100 {
+    color: #f6eadf !important;
+}
+
+[data-theme="dark"] .text-coffee-600.dark\:text-coffee-300 {
+    color: var(--coffee-300) !important;
+}
+
+[data-theme="dark"] .text-coffee-700.dark\:text-cream-100 {
+    color: #f6eadf !important;
+}
+
+/* Modal pill backgrounds */
+html:not([data-theme="dark"]) .bg-coffee-100.dark\:bg-coffee-700 {
+    background-color: var(--coffee-100) !important;
+    color: var(--coffee-700) !important;
+}
+
+[data-theme="dark"] .bg-coffee-100.dark\:bg-coffee-700 {
+    background-color: var(--coffee-700) !important;
+    color: #f6eadf !important;
+}
+
+/* Time stamps and meta text */
+html:not([data-theme="dark"]) .text-coffee-500.dark\:text-coffee-400 {
+    color: var(--coffee-500) !important;
+}
+
+[data-theme="dark"] .text-coffee-500.dark\:text-coffee-400 {
+    color: var(--coffee-400) !important;
+}
+
+/* Border colors */
+html:not([data-theme="dark"]) .border-coffee-100.dark\:border-coffee-600 {
+    border-color: var(--coffee-100) !important;
+}
+
+[data-theme="dark"] .border-coffee-100.dark\:border-coffee-600 {
+    border-color: var(--coffee-600) !important;
+}
+
+/* Post content backgrounds */
+html:not([data-theme="dark"]) .bg-coffee-50.dark\:bg-coffee-700 {
+    background-color: var(--coffee-50) !important;
+    color: var(--coffee-700) !important;
+}
+
+[data-theme="dark"] .bg-coffee-50.dark\:bg-coffee-700 {
+    background-color: var(--coffee-700) !important;
+    color: #f6eadf !important;
+}
