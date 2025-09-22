@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\FriendshipController;
 use App\Http\Controllers\FriendRequestController;
 use App\Http\Controllers\FollowController;
+use App\Http\Controllers\StoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChatController;
 
@@ -50,6 +51,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/chat/{user}/stream', [ChatController::class, 'stream'])->name('chat.stream');
     Route::patch('/chat/{user}/messages/{message}', [ChatController::class, 'updateMessage'])->name('chat.message.update');
     Route::delete('/chat/{user}/messages/{message}', [ChatController::class, 'deleteMessage'])->name('chat.message.delete');
+    
+    // Story routes
+    Route::get('/stories', [StoryController::class, 'index'])->name('stories.index');
+    Route::get('/stories/create', [StoryController::class, 'create'])->name('stories.create');
+    Route::post('/stories', [StoryController::class, 'store'])->name('stories.store');
+    Route::get('/stories/{story}', [StoryController::class, 'show'])->name('stories.show');
+    Route::get('/user/{user}/stories', [StoryController::class, 'userStories'])->name('user.stories');
+    Route::get('/user/{user}/stories/{index}', [StoryController::class, 'viewStory'])->name('user.stories.view');
+    Route::delete('/stories/{story}', [StoryController::class, 'destroy'])->name('stories.destroy');
 });
 
 require __DIR__.'/auth.php';

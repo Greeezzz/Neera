@@ -14,6 +14,80 @@
                 </div>
             </div>
 
+            <!-- Stories Section -->
+            <div class="mb-8 animate-fade-in-up" style="animation-delay: 0.2s;">
+                <div class="card-coffee p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-xl font-bold text-coffee-800 dark:text-coffee-100 flex items-center">
+                            <span class="mr-2">📸</span>
+                            Stories
+                        </h2>
+                        <a href="{{ route('stories.index') }}" class="text-sm text-coffee-600 dark:text-coffee-300 hover:text-coffee-800 dark:hover:text-coffee-100">View All</a>
+                    </div>
+                    
+                    @php
+                        $user = Auth::user();
+                        $followingIds = $user->following()->pluck('following_id')->push($user->id);
+                        $usersWithStories = App\Models\User::whereIn('id', $followingIds)
+                            ->whereHas('stories', function($query) {
+                                $query->where('expires_at', '>', now());
+                            })
+                            ->with(['activeStories'])
+                            ->get();
+                    @endphp
+                    
+                    <div class="flex space-x-4 overflow-x-auto pb-2">
+                        <!-- Add Story Button (for current user) -->
+                        <div class="flex-shrink-0 text-center">
+                            <a href="{{ route('stories.create') }}" class="block">
+                                <div class="relative w-16 h-16 rounded-full border-2 border-dashed border-coffee-400 dark:border-coffee-500 flex items-center justify-center hover:border-coffee-500 dark:hover:border-coffee-400 transition-colors">
+                                    <svg class="w-6 h-6 text-coffee-400 dark:text-coffee-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                    </svg>
+                                </div>
+                                <p class="mt-2 text-xs text-coffee-600 dark:text-coffee-300 font-medium">Add Story</p>
+                            </a>
+                        </div>
+                        
+                        <!-- Users with Stories -->
+                        @foreach($usersWithStories as $userWithStory)
+                            <div class="flex-shrink-0 text-center">
+                                <a href="{{ route('user.stories', $userWithStory) }}" class="block">
+                                    <div class="relative">
+                                        <!-- Avatar with story ring -->
+                                        <div class="relative w-16 h-16 rounded-full overflow-hidden ring-4 ring-coffee-500 dark:ring-coffee-400 ring-offset-2 ring-offset-white dark:ring-offset-coffee-900">
+                                            @if($userWithStory->avatar)
+                                                <img src="{{ Storage::url($userWithStory->avatar) }}" alt="{{ $userWithStory->name }}" class="w-full h-full object-cover">
+                                            @else
+                                                <div class="w-full h-full bg-coffee-200 dark:bg-coffee-700 flex items-center justify-center">
+                                                    <span class="text-coffee-600 dark:text-coffee-300 font-semibold text-lg">{{ substr($userWithStory->name, 0, 1) }}</span>
+                                                </div>
+                                            @endif
+                                        </div>
+                                        
+                                        <!-- Live indicator -->
+                                        <div class="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-white dark:border-coffee-900 flex items-center justify-center">
+                                            <span class="text-white text-xs font-bold">●</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- User name -->
+                                    <p class="mt-2 text-xs text-coffee-600 dark:text-coffee-300 font-medium truncate max-w-16">
+                                        {{ $userWithStory->name }}
+                                    </p>
+                                </a>
+                            </div>
+                        @endforeach
+                        
+                        @if($usersWithStories->count() === 0)
+                            <div class="flex-1 text-center py-4">
+                                <p class="text-coffee-500 dark:text-coffee-400 text-sm">No stories available. Be the first to share!</p>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+
             <!-- Main Content -->
             <div class="grid grid-cols-1 gap-6">
                 <!-- Posts Section (Left - Main) -->

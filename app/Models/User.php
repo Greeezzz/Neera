@@ -138,4 +138,15 @@ public function unfollow($userId): bool
     return true;
 }
 
+// Story system
+public function stories()
+{
+    return $this->hasMany(Story::class);
+}
+
+public function activeStories()
+{
+    return $this->stories()->active()->latest();
+}
+
 }

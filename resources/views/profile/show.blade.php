@@ -18,17 +18,34 @@
             <div class="absolute bottom-0 left-1/2 -translate-x-1/2 md:left-24 md:translate-x-0 flex items-end gap-6 pb-6 px-4 w-full max-w-6xl mx-auto">
                 <!-- Enhanced Avatar -->
                 <div class="relative group">
+                    @php
+                        $hasActiveStories = $user->activeStories()->exists();
+                    @endphp
+                    
+                    @if($hasActiveStories)
+                        <a href="{{ route('user.stories', $user) }}" class="block">
+                    @endif
+                    
                     @if($user->profile_picture)
                         <img src="{{ asset('storage/' . $user->profile_picture) }}" 
-                             class="w-36 h-36 md:w-44 md:h-44 rounded-full object-cover ring-4 ring-white shadow-2xl transition-transform duration-300 group-hover:scale-105" 
+                             class="w-36 h-36 md:w-44 md:h-44 rounded-full object-cover {{ $hasActiveStories ? 'ring-4 ring-coffee-500 ring-offset-4 ring-offset-transparent' : 'ring-4 ring-white' }} shadow-2xl transition-transform duration-300 {{ $hasActiveStories ? 'group-hover:scale-105 cursor-pointer' : 'group-hover:scale-105' }}" 
                              alt="{{ $user->name }} avatar">
                     @else
-                        <div class="w-36 h-36 md:w-44 md:h-44 rounded-full bg-gradient-to-br from-coffee-300 via-coffee-400 to-coffee-500 flex items-center justify-center ring-4 ring-white shadow-2xl transition-transform duration-300 group-hover:scale-105">
+                        <div class="w-36 h-36 md:w-44 md:h-44 rounded-full bg-gradient-to-br from-coffee-300 via-coffee-400 to-coffee-500 flex items-center justify-center {{ $hasActiveStories ? 'ring-4 ring-coffee-500 ring-offset-4 ring-offset-transparent' : 'ring-4 ring-white' }} shadow-2xl transition-transform duration-300 {{ $hasActiveStories ? 'group-hover:scale-105 cursor-pointer' : 'group-hover:scale-105' }}">
                             <span class="text-5xl font-bold text-white drop-shadow-lg">{{ strtoupper(substr($user->name,0,1)) }}</span>
                         </div>
                     @endif
-                    <!-- Online status indicator -->
-                    <div class="absolute bottom-3 right-3 w-6 h-6 bg-green-400 rounded-full ring-4 ring-white shadow-lg"></div>
+                    
+                    @if($hasActiveStories)
+                        <!-- Story indicator badge -->
+                        <div class="absolute -top-2 -right-2 w-8 h-8 bg-coffee-500 rounded-full border-4 border-white shadow-lg flex items-center justify-center animate-pulse-soft">
+                            <span class="text-white text-xs font-bold">📸</span>
+                        </div>
+                        </a>
+                    @else
+                        <!-- Online status indicator -->
+                        <div class="absolute bottom-3 right-3 w-6 h-6 bg-green-400 rounded-full ring-4 ring-white shadow-lg"></div>
+                    @endif
                 </div>
                 
                 <!-- User info with enhanced styling -->
@@ -137,6 +154,10 @@
                         <a href="{{ route('profile.edit') }}" class="group relative bg-gradient-to-r from-coffee-500 to-coffee-600 hover:from-coffee-600 hover:to-coffee-700 text-white font-semibold px-6 py-3 rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-2">
                             <span class="text-lg">⚙️</span>
                             Edit Profile
+                        </a>
+                        <a href="{{ route('stories.create') }}" class="group relative bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-semibold px-6 py-3 rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-2">
+                            <span class="text-lg">📸</span>
+                            Add Story
                         </a>
                         <a href="{{ route('dashboard') }}#create" class="group relative bg-gradient-to-r from-latte-400 to-latte-500 hover:from-latte-500 hover:to-latte-600 text-coffee-800 font-semibold px-6 py-3 rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-2">
                             <span class="text-lg">➕</span>

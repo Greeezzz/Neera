@@ -20,6 +20,11 @@
                         🏠 Home
                     </a>
                     
+                    <a href="{{ route('stories.index') }}" 
+                       class="inline-flex items-center px-1 pt-1 text-sm font-medium text-coffee-700 hover:text-coffee-800 transition-all duration-300 hover:scale-105 {{ request()->routeIs('stories.*') ? 'border-b-2 border-coffee-500' : '' }}">
+                        📸 Stories
+                    </a>
+                    
                     <a href="{{ route('friends.index') }}" 
                        class="inline-flex items-center px-1 pt-1 text-sm font-medium text-coffee-700 hover:text-coffee-800 transition-all duration-300 hover:scale-105 {{ request()->routeIs('friends.index') ? 'border-b-2 border-coffee-500' : '' }}">
                         👥 Friends
@@ -80,6 +85,12 @@
                             <span>{{ __('Chat') }}</span>
                         </x-dropdown-link>
                         
+                        <x-dropdown-link :href="route('stories.index')" 
+                                       class="flex items-center space-x-2">
+                            <span>📸</span>
+                            <span>{{ __('Stories') }}</span>
+                        </x-dropdown-link>
+                        
                         <x-dropdown-link :href="route('friends.index')" 
                                        class="flex items-center justify-between">
                             <div class="flex items-center space-x-2">
@@ -138,6 +149,10 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" 
                                    class="text-coffee-700 hover:bg-cream-100">
                 🏠 Home
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('stories.index')" :active="request()->routeIs('stories.*')"
+                                   class="text-coffee-700 hover:bg-cream-100">
+                📸 Stories
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('friends.index')" :active="request()->routeIs('friends.index')"
                                    class="text-coffee-700 hover:bg-cream-100">

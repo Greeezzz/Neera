@@ -42,7 +42,8 @@
             <!-- Page Content -->
             <main class="relative z-10">
                 <div class="animate-fade-in-up" style="animation-delay: 0.2s;">
-                    {{ $slot }}
+                    {{ $slot ?? '' }}
+                    @yield('content')
                 </div>
             </main>
         </div>
