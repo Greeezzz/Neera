@@ -6,7 +6,7 @@
     <div class="card-coffee mb-8 overflow-hidden">
         <!-- Coffee Milk Header Background -->
         <div class="relative bg-gradient-to-r from-orange-50 via-amber-50 to-yellow-50 dark:from-orange-900/20 dark:via-amber-900/20 dark:to-yellow-900/20 border-b-2 border-orange-100 dark:border-orange-800">
-            <div class="absolute inset-0 opacity-5 dark:opacity-3" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60"><g fill="%23A0522D"><circle cx="10" cy="10" r="1.5"/><circle cx="50" cy="20" r="1.5"/><circle cx="25" cy="40" r="1.5"/><circle cx="40" cy="5" r="1.5"/><circle cx="5" cy="35" r="1.5"/><circle cx="55" cy="50" r="1.5"/></g></svg>'); background-size: 60px 60px;"></div>
+            <div class="absolute inset-0 opacity-5 dark:opacity-3 coffee-bean-pattern"></div>
             
             <div class="relative p-6">
                 <div class="flex items-center justify-between">
@@ -66,7 +66,7 @@
                                                 @else
                                                     <div class="w-full h-full bg-gradient-to-br from-amber-200 via-orange-200 to-yellow-200 dark:from-amber-700 dark:via-orange-700 dark:to-yellow-700 flex items-center justify-center relative overflow-hidden">
                                                         <!-- Coffee pattern background -->
-                                                        <div class="absolute inset-0 opacity-20" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><g fill="%23D97706"><circle cx="8" cy="8" r="1"/><circle cx="32" cy="16" r="1"/><circle cx="16" cy="28" r="1"/><circle cx="28" cy="4" r="1"/></g></svg>'); background-size: 40px 40px;"></div>
+                                                        <div class="absolute inset-0 opacity-20 coffee-dots-pattern"></div>
                                                         <span class="relative text-amber-800 dark:text-amber-200 font-bold text-xl">{{ substr($data['user']->name, 0, 1) }}</span>
                                                     </div>
                                                 @endif
@@ -159,7 +159,7 @@
         <div class="card-coffee overflow-hidden">
             <!-- Coffee-themed header -->
             <div class="relative bg-gradient-to-r from-amber-50 via-orange-50 to-yellow-50 dark:from-amber-900/10 dark:via-orange-900/10 dark:to-yellow-900/10 border-b border-amber-100 dark:border-amber-800/50">
-                <div class="absolute inset-0 opacity-5" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><g fill="%23D97706"><path d="M50 20c-5 0-10 5-10 10s5 10 10 10 10-5 10-10-5-10-10-10zm0 5c2.5 0 5 2.5 5 5s-2.5 5-5 5-5-2.5-5-5 2.5-5 5-5z"/></g></svg>'); background-size: 100px 100px;"></div>
+                <div class="absolute inset-0 opacity-5 coffee-cup-pattern"></div>
                 
                 <div class="relative p-8 text-center">
                     <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-amber-400 via-orange-400 to-yellow-400 rounded-full shadow-lg mb-4">
@@ -265,7 +265,7 @@ function addCoffeeBubble(element) {
     setTimeout(() => bubble.remove(), 1000);
 }
 
-// Add CSS for bubble animation
+// Add CSS for bubble animation and patterns
 const style = document.createElement('style');
 style.textContent = `
     @keyframes bubble {
@@ -280,6 +280,32 @@ style.textContent = `
     
     .coffee-steam {
         transition: opacity 0.3s ease;
+    }
+    
+    .coffee-bean-pattern {
+        background-image: repeating-linear-gradient(
+            45deg,
+            rgba(160, 82, 45, 0.1) 0px,
+            rgba(160, 82, 45, 0.1) 2px,
+            transparent 2px,
+            transparent 10px
+        );
+    }
+    
+    .coffee-dots-pattern {
+        background-image: radial-gradient(circle at 20% 20%, rgba(160, 82, 45, 0.3) 2px, transparent 2px),
+                         radial-gradient(circle at 80% 40%, rgba(160, 82, 45, 0.3) 1px, transparent 1px),
+                         radial-gradient(circle at 40% 80%, rgba(160, 82, 45, 0.3) 1px, transparent 1px);
+        background-size: 20px 20px;
+    }
+    
+    .coffee-cup-pattern {
+        background-image: repeating-conic-gradient(
+            from 0deg at 50% 50%,
+            rgba(160, 82, 45, 0.1) 0deg 30deg,
+            transparent 30deg 60deg
+        );
+        background-size: 50px 50px;
     }
 `;
 document.head.appendChild(style);
